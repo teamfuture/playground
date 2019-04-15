@@ -1,7 +1,6 @@
 package com.webobjects.appserver;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class WORequest extends WOMessage {
 
@@ -32,7 +31,7 @@ public class WORequest extends WOMessage {
 
 	@Override
 	public String toString() {
-		return Objects.toString( this );
+		return "[WORequest: uri: " + uri() + "]";
 	}
 
 	public String uri() {
