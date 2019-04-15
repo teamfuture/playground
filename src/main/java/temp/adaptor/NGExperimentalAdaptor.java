@@ -76,18 +76,18 @@ public class NGExperimentalAdaptor {
 
 		@Override
 		public void handle( HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext ) throws HttpException, IOException {
-			NGResponse woresponse = NGApplication.application().dispatchRequest( httpRequestToNGRequest( httpRequest ) );
-			assignWOResponseToHttpResponse( woresponse, httpResponse );
+			NGResponse ngresponse = NGApplication.application().dispatchRequest( httpRequestToNGRequest( httpRequest ) );
+			assignNGResponseToHttpResponse( ngresponse, httpResponse );
 		}
 
 		private static NGRequest httpRequestToNGRequest( HttpRequest httpRequest ) {
-			String method = httpRequest.getRequestLine().getMethod().toUpperCase( Locale.ENGLISH );
-			String uri = httpRequest.getRequestLine().getUri();
-			String httpVersion = httpRequest.getProtocolVersion().toString();
-			Map<String, List<String>> headers = headers( httpRequest );
-			byte[] content = new byte[0]; // FIXME: Actually read the request content, if required
-			Map<String, Object> userInfo = new HashMap<>();
-			NGRequest ngRequest = new NGRequest( method, uri, httpVersion, headers, content, userInfo );
+			final String method = httpRequest.getRequestLine().getMethod().toUpperCase( Locale.ENGLISH );
+			final String uri = httpRequest.getRequestLine().getUri();
+			final String httpVersion = httpRequest.getProtocolVersion().toString();
+			final Map<String, List<String>> headers = headers( httpRequest );
+			final byte[] content = new byte[0]; // FIXME: Actually read the request content, if required
+			final Map<String, Object> userInfo = new HashMap<>();
+			final NGRequest ngRequest = new NGRequest( method, uri, httpVersion, headers, content, userInfo );
 			return ngRequest;
 		}
 
@@ -107,11 +107,15 @@ public class NGExperimentalAdaptor {
 			return headers;
 		}
 
-		private static void assignWOResponseToHttpResponse( NGResponse woResponse, HttpResponse httpResponse ) {
-			// FIXME: Determine the actual content type // Hugi 2019-04-15
-			StringEntity entity = new StringEntity( woResponse.contentString(), ContentType.create( "text/html", NGApplication.application().defaultEncoding() ) );
+		private static void assignNGResponseToHttpResponse( NGResponse ngResponse, HttpResponse httpResponse ) {
+			// FIXME: This currently only handles strings
+			final String contentString = ngResponse.contentString();
+
+			// FIXME: Determine the actual content type form the NGResponse // Hugi 2019-04-15
+			final ContentType contentType = ContentType.create( "text/html", ngResponse.contentEncoding() );
+			final StringEntity entity = new StringEntity( contentString, contentType );
 			httpResponse.setEntity( entity );
-			httpResponse.setStatusCode( woResponse.status() );
+			httpResponse.setStatusCode( ngResponse.status() );
 		}
 	}
 
@@ -184,6 +188,7 @@ public class NGExperimentalAdaptor {
 			try {
 				while( !Thread.interrupted() && this.conn.isOpen() ) {
 					this.httpservice.handleRequest( this.conn, context );
+					this.conn.close(); // FIXME: Added to avoid connection read timeout. Synchronization problems? // Hugi 2019-04-15
 				}
 			}
 			catch( ConnectionClosedException ex ) {
