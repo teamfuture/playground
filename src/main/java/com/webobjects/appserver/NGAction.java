@@ -7,6 +7,8 @@ public abstract class NGAction {
 	private NGRequest _request;
 
 	public NGAction( NGRequest request ) {
+		Objects.requireNonNull( request );
+
 		_request = request;
 	}
 

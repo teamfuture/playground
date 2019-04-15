@@ -8,28 +8,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class NGMessage {
 
-	private static final Logger logger = LoggerFactory.getLogger( NGMessage.class );
-
 	private Map<String, List<String>> _headers = new HashMap<String, List<String>>();
-	private String _httpVersion;
+	private String _httpVersion; // FIXME: An Enum ight be better in this case, but the current frameworks use a string.
 	private byte[] _content = new byte[0]; // FIXME: A byte array might not be the correct data structure for content. Should we create an NSData wrapper? // Hugi 2019-04-15
 	private String _contentEncoding = "utf-8"; // FIXME: Get from properties // Hugi 2019-04-15
 	private Map<String, Object> _userInfo; // FIXME: Is userInfo really neccessary used for anything in message passing? // Hugi 2019-04-15
 
 	public void appendContentString( String stringToAppend ) {
-		logger.debug( "appendContentString: {}", stringToAppend );
+		Objects.requireNonNull( stringToAppend );
 
 		try {
-			byte[] bytesToAppend = stringToAppend.getBytes( contentEncoding() );
-			appendContentData( bytesToAppend );
+			appendContentData( stringToAppend.getBytes( contentEncoding() ) );
 		}
 		catch( UnsupportedEncodingException e ) {
-			e.printStackTrace();
+			throw new RuntimeException( e ); // FIXME: Don't just rethrow
 		}
 	}
 
@@ -41,7 +35,7 @@ public class NGMessage {
 			output.write( bytesToAppend );
 		}
 		catch( IOException e ) {
-			throw new RuntimeException( e );
+			throw new RuntimeException( e ); // FIXME: Don't just rethrow
 		}
 
 		setContent( output.toByteArray() );
@@ -60,7 +54,7 @@ public class NGMessage {
 			return new String( content(), contentEncoding() );
 		}
 		catch( UnsupportedEncodingException e ) {
-			throw new RuntimeException( "An error occurred while attempting to encode the content as a string", e );
+			throw new RuntimeException( "We all know this never happens, right?", e );
 		}
 	}
 
@@ -76,16 +70,19 @@ public class NGMessage {
 	 * Completely replace the content of this message with the given byte content.
 	 */
 	public void setContent( byte[] newContent ) {
+		Objects.requireNonNull( newContent );
+
 		_content = newContent;
 	}
 
 	/**
 	 * Completely replace the content of this message with the given string content, encoded in the encoding specified by contentEncoding().
 	 */
-	public void setContent( String value ) {
+	public void setContent( String newContent ) {
+		Objects.requireNonNull( newContent );
 
 		try {
-			setContent( value.getBytes( contentEncoding() ) );
+			setContent( newContent.getBytes( contentEncoding() ) );
 		}
 		catch( UnsupportedEncodingException e ) {
 			throw new RuntimeException( "An error occurred while attempting to convert string content to data", e );
@@ -97,6 +94,8 @@ public class NGMessage {
 	}
 
 	public void setHeaders( Map<String, List<String>> headers ) {
+		Objects.requireNonNull( headers );
+
 		_headers = headers;
 	}
 
@@ -108,6 +107,16 @@ public class NGMessage {
 		_userInfo = map;
 	}
 
+	public Map<String, Object> userInfo() {
+		return _userInfo;
+	}
+
+	public Object userInfoForKey( String key ) {
+		Objects.requireNonNull( key );
+
+		return userInfo().get( key );
+	}
+
 	@Override
 	public boolean equals( Object obj ) {
 		return Objects.equals( obj, this );
@@ -116,13 +125,5 @@ public class NGMessage {
 	@Override
 	public String toString() {
 		return Objects.toString( this );
-	}
-
-	public Map<String, Object> userInfo() {
-		return _userInfo;
-	}
-
-	public Object userInfoForKey( String key ) {
-		return userInfo().get( key );
 	}
 }

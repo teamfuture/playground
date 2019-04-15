@@ -75,6 +75,9 @@ public class NGDirectActionRequestHandler extends NGRequestHandler {
 	}
 
 	private NGActionResults invokeDirectAction( String directActionClassName, String directActionName, NGRequest request ) {
+		Objects.requireNonNull( directActionClassName );
+		Objects.requireNonNull( directActionName );
+		Objects.requireNonNull( request );
 
 		try {
 			// FIXME: That class declaration needs to have a more efficient way of being (a) discovered and (b) cached
@@ -123,6 +126,9 @@ public class NGDirectActionRequestHandler extends NGRequestHandler {
 		 * @return the element of the path if it is present, otherwise null
 		 */
 		private static final String pathElementIfPresent( String[] pathParts, int positionInPath ) {
+			Objects.requireNonNull( pathParts );
+			Objects.requireNonNull( positionInPath );
+
 			if( pathParts.length <= positionInPath ) {
 				return null;
 			}

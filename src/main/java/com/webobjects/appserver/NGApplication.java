@@ -31,13 +31,15 @@ public class NGApplication {
 	 * This method should be invoked by subclasses
 	 */
 	public static void main( String[] args, Class<? extends NGApplication> applicationClass ) {
+		Objects.requireNonNull( applicationClass );
+
 		NGExperimentalAdaptor.listen();
 
 		try {
 			_application = applicationClass.newInstance();
 		}
 		catch( InstantiationException | IllegalAccessException e ) {
-			e.printStackTrace();
+			throw new RuntimeException( e );
 		}
 
 		application().registerRequestHandler( new NGDirectActionRequestHandler(), "wa" ); // FIXME: Consider location of initialization
