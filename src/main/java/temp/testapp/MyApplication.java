@@ -1,4 +1,4 @@
-package temp.testapplication;
+package temp.testapp;
 
 import com.webobjects.appserver.WOApplication;
 
