@@ -50,16 +50,28 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 		return results.generateResponse();
 	}
 
+	/**
+	 * @return a class corresponding to the class identifier in the URL. Can be a simple classname or fully qualified.
+	 */
+	private Class<? extends WODirectAction> directActionClassFromName( String directActionClassName ) {
+		try {
+			return (Class<? extends WODirectAction>)Class.forName( directActionClassName );
+		}
+		catch( ClassNotFoundException e ) {
+			throw new RuntimeException( e ); // FIXME: Can't just keep rethrowing
+		}
+	}
+
 	private WOActionResults invokeDirectAction( String directActionClassName, String directActionName, WORequest request ) {
 
 		try {
 			// FIXME: That class declaration needs to have a more efficient way of being (a) discovered and (b) cached
-			Class<? extends WODirectAction> directActionClass = (Class<? extends WODirectAction>)Class.forName( directActionClassName );
+			Class<? extends WODirectAction> directActionClass = directActionClassFromName( directActionClassName );
 			Constructor<? extends WODirectAction> constructor = directActionClass.getConstructor( WORequest.class );
 			WODirectAction newInstance = constructor.newInstance( request );
 			return newInstance.performActionNamed( directActionName );
 		}
-		catch( ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
+		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
 			logger.error( "The direct action class {} was not found", directActionClassName, e );
 			throw new RuntimeException( e ); // FIXME: Can't just keep rethrowing
 		}
