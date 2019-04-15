@@ -53,11 +53,13 @@ import com.webobjects.appserver.WOResponse;
 
 public class WOExperimentalAdaptor {
 
+	private static final int DEFAULT_HTTP_PORT = 1200;
+
 	private static final Logger logger = LoggerFactory.getLogger( WOExperimentalAdaptor.class );
 
 	public static void listen() {
 		try {
-			Thread t = new RequestListenerThread( 1200 );
+			Thread t = new RequestListenerThread( DEFAULT_HTTP_PORT );
 			t.setDaemon( false );
 			t.start();
 		}
@@ -96,15 +98,13 @@ public class WOExperimentalAdaptor {
 				String name = header.getName();
 				List<String> values = Arrays.asList( header.getValue() );
 				headers.put( name, values );
-				/*
-				NSArray<HeaderElement> values = new NSArray<String>( header.getElements() );
-				*/
 			}
 
 			return headers;
 		}
 
 		private static void assignWOResponseToHttpResponse( WOResponse woResponse, HttpResponse httpResponse ) {
+			// FIXME: Determine the actual content type // Hugi 2019-04-15
 			StringEntity entity = new StringEntity( woResponse.contentString(), ContentType.create( "text/html", WOApplication.application().defaultEncoding() ) );
 			httpResponse.setEntity( entity );
 			httpResponse.setStatusCode( woResponse.status() );
@@ -144,7 +144,7 @@ public class WOExperimentalAdaptor {
 					// Set up HTTP connection
 					Socket socket = this.serversocket.accept();
 					DefaultHttpServerConnection conn = new DefaultHttpServerConnection();
-					System.out.println( "Incoming connection from " + socket.getInetAddress() );
+					logger.debug( "Incoming connection from " + socket.getInetAddress() );
 					conn.bind( socket, this.params );
 
 					// Start worker thread
@@ -156,7 +156,7 @@ public class WOExperimentalAdaptor {
 					break;
 				}
 				catch( IOException e ) {
-					System.err.println( "I/O error initialising connection thread: " + e.getMessage() );
+					logger.error( "I/O error initialising connection thread: " + e.getMessage() );
 					break;
 				}
 			}
@@ -183,13 +183,13 @@ public class WOExperimentalAdaptor {
 				}
 			}
 			catch( ConnectionClosedException ex ) {
-				System.err.println( "Client closed connection" );
+				logger.error( "Client closed connection" );
 			}
 			catch( IOException ex ) {
-				System.err.println( "I/O error: " + ex.getMessage() );
+				logger.error( "I/O error: " + ex.getMessage() );
 			}
 			catch( HttpException ex ) {
-				System.err.println( "Unrecoverable HTTP protocol violation: " + ex.getMessage() );
+				logger.error( "Unrecoverable HTTP protocol violation: " + ex.getMessage() );
 			}
 			finally {
 				try {
