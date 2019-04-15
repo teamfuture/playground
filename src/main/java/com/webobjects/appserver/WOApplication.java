@@ -67,8 +67,14 @@ public class WOApplication {
 	public WOResponse dispatchRequest( WORequest request ) {
 		Objects.requireNonNull( request );
 
-		WORequestHandler r = requestHandlerForKey( directActionRequestHandlerKey() );
-		return r.handleRequest( request );
+		final String requestHandlerKey = directActionRequestHandlerKey(); // FIXME: Implement request handler key lookup from URL // Hugi 2019-04-15
+		final WORequestHandler requestHandler = requestHandlerForKey( requestHandlerKey );
+
+		if( requestHandler == null ) {
+			throw new IllegalArgumentException( "No request handler found for key: " + requestHandlerKey );
+		}
+
+		return requestHandler.handleRequest( request );
 	}
 
 	private WORequestHandler requestHandlerForKey( String key ) {
