@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.webobjects.temp.WOExperimentalAdaptor;
+import temp.adaptor.WOExperimentalAdaptor;
 
 public class WOApplication {
 
@@ -35,10 +35,7 @@ public class WOApplication {
 		application().registerRequestHandler( new WODirectActionRequestHandler(), "wa" ); // FIXME: Consider location of initialization
 	}
 
-	/**
-	 * Only WOApplication can construct instances of itself.
-	 */
-	private WOApplication() {}
+	public WOApplication() {}
 
 	/**
 	 * Registers a new request handler that will respond to requests under the given key. @see WORequestHandler

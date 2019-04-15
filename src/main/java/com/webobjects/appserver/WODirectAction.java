@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.temp.WONotImplementedException;
+import temp.adaptor.WONotImplementedException;
 
 public class WODirectAction extends WOAction {
 

@@ -1,4 +1,4 @@
-package com.webobjects.temp;
+package temp.adaptor;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
