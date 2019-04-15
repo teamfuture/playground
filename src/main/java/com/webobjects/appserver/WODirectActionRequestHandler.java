@@ -2,6 +2,7 @@ package com.webobjects.appserver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 	private WOActionResults invokeDirectAction( String directActionClassName, String directActionName, WORequest request ) {
 
 		try {
-			// FIXME: That class declarationneeds to have a more efficient way of being (a) discovered and (b) cached
+			// FIXME: That class declaration needs to have a more efficient way of being (a) discovered and (b) cached
 			Class<? extends WODirectAction> directActionClass = (Class<? extends WODirectAction>)Class.forName( directActionClassName );
 			Constructor<? extends WODirectAction> constructor = directActionClass.getConstructor( WORequest.class );
 			WODirectAction newInstance = constructor.newInstance( request );
@@ -60,10 +61,8 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 		}
 		catch( ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
 			logger.error( "The direct action class {} was not found", directActionClassName, e );
-			e.printStackTrace();
+			throw new RuntimeException( e ); // FIXME: Can't just keep rethrowing
 		}
-
-		return null;
 	}
 
 	/**
@@ -79,7 +78,15 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 		private final String _directActionName;
 
 		public WODirectActionURLDecoder( String url ) {
+			Objects.requireNonNull( url );
+
+			// Remove the first slash since it messes with out string slicing
+			url = url.substring( 1 );
+
 			final String[] parts = url.split( "/" );
+
+			logger.debug( "Decoded URL {} to parts {} ", Arrays.asList( parts ) );
+
 			_adaptorPrefix = pathElementIfPresent( parts, 0 );
 			_adaptorName = pathElementIfPresent( parts, 1 );
 			_applicationName = pathElementIfPresent( parts, 2 );
@@ -88,7 +95,10 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 			_directActionName = pathElementIfPresent( parts, 5 );
 		}
 
-		public String pathElementIfPresent( String[] pathParts, int positionInPath ) {
+		/**
+		 * @return the element of the path if it is present, otherwise null
+		 */
+		private static final String pathElementIfPresent( String[] pathParts, int positionInPath ) {
 			if( pathParts.length <= positionInPath ) {
 				return null;
 			}
