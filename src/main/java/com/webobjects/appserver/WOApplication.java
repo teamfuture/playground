@@ -86,4 +86,9 @@ public class WOApplication {
 	private String directActionRequestHandlerKey() {
 		return "wa";
 	}
+
+	/**
+	 * FIXME: This is included merely to avoid the HotSwapAdaptor to DCEVM from throwing an exception on startup.
+	 */
+	public void run() {}
 }
