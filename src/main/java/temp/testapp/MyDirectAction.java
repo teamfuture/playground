@@ -17,4 +17,10 @@ public class MyDirectAction extends WODirectAction {
 		r.setContent( "What an awesome application" );
 		return r;
 	}
+
+	public WOActionResults testingAction() {
+		WOResponse r = new WOResponse();
+		r.setContent( "This is another direct action" );
+		return r;
+	}
 }
