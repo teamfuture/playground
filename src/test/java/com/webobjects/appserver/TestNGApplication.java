@@ -1,3 +1,3 @@
 package com.webobjects.appserver;
 
-public class TestWOApplication {}
+public class TestNGApplication {}
