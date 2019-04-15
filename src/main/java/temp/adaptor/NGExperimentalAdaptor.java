@@ -76,19 +76,19 @@ public class NGExperimentalAdaptor {
 
 		@Override
 		public void handle( HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext ) throws HttpException, IOException {
-			NGResponse woresponse = NGApplication.application().dispatchRequest( httpRequestToWORequest( httpRequest ) );
+			NGResponse woresponse = NGApplication.application().dispatchRequest( httpRequestToNGRequest( httpRequest ) );
 			assignWOResponseToHttpResponse( woresponse, httpResponse );
 		}
 
-		private static NGRequest httpRequestToWORequest( HttpRequest httpRequest ) {
+		private static NGRequest httpRequestToNGRequest( HttpRequest httpRequest ) {
 			String method = httpRequest.getRequestLine().getMethod().toUpperCase( Locale.ENGLISH );
 			String uri = httpRequest.getRequestLine().getUri();
 			String httpVersion = httpRequest.getProtocolVersion().toString();
 			Map<String, List<String>> headers = headers( httpRequest );
-			byte[] content = null;
-			Map userInfo = null;
-			NGRequest woRequest = new NGRequest( method, uri, httpVersion, headers, content, userInfo );
-			return woRequest;
+			byte[] content = new byte[0]; // FIXME: Actually read the request content, if required
+			Map<String, Object> userInfo = new HashMap<>();
+			NGRequest ngRequest = new NGRequest( method, uri, httpVersion, headers, content, userInfo );
+			return ngRequest;
 		}
 
 		/**
