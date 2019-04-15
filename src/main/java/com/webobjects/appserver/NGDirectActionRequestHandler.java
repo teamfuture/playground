@@ -55,7 +55,19 @@ public class NGDirectActionRequestHandler extends NGRequestHandler {
 	 */
 	private Class<? extends NGDirectAction> directActionClassFromName( String directActionClassName ) {
 		try {
-			return (Class<? extends NGDirectAction>)Class.forName( directActionClassName );
+			Class<? extends NGDirectAction> directActionClass = (Class<? extends NGDirectAction>)NGBundle.classForSimpleName( directActionClassName );
+
+			// If the class is not found from the simple name lookup, we attempt to find it by full name.
+			if( directActionClass == null ) {
+				directActionClass = (Class<? extends NGDirectAction>)Class.forName( directActionClassName );
+			}
+
+			// FIXME: Better handle the case of the Direct Action class not being found at all // Hugi 2019-04-15
+			if( directActionClass == null ) {
+				throw new RuntimeException( "Direct action class not found: " + directActionClassName );
+			}
+
+			return directActionClass;
 		}
 		catch( ClassNotFoundException e ) {
 			throw new RuntimeException( e ); // FIXME: Can't just keep rethrowing
