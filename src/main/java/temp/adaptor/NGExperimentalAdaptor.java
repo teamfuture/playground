@@ -53,17 +53,21 @@ import com.webobjects.appserver.NGResponse;
 
 public class NGExperimentalAdaptor {
 
-	private static final int DEFAULT_HTTP_PORT = 1200;
-
 	private static final Logger logger = LoggerFactory.getLogger( NGExperimentalAdaptor.class );
 
+	// FIXME: Make the port settable via properties
+	private static final int DEFAULT_HTTP_PORT = 1200;
+
+	/**
+	 * Start listening for requests on the default port.
+	 */
 	public static void listen() {
 		try {
 			Thread t = new RequestListenerThread( DEFAULT_HTTP_PORT );
 			t.setDaemon( false );
 			t.start();
 		}
-		catch( Exception e ) {
+		catch( IOException e ) {
 			logger.error( "Error while registering WOAdaptor", e );
 		}
 	}

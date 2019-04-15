@@ -86,12 +86,18 @@ public class NGApplication {
 		return requestHandler.handleRequest( request );
 	}
 
+	/**
+	 * @return The request handler instance registered with the given key
+	 */
 	private NGRequestHandler requestHandlerForKey( String key ) {
 		Objects.requireNonNull( key );
 
 		return _requestHandlers.get( key );
 	}
 
+	/**
+	 * @return The default Direct Action request handler key
+	 */
 	private String directActionRequestHandlerKey() {
 		return "wa";
 	}
