@@ -1,25 +1,25 @@
 package temp.testapp;
 
-import com.webobjects.appserver.WOActionResults;
-import com.webobjects.appserver.WODirectAction;
-import com.webobjects.appserver.WORequest;
-import com.webobjects.appserver.WOResponse;
+import com.webobjects.appserver.NGActionResults;
+import com.webobjects.appserver.NGDirectAction;
+import com.webobjects.appserver.NGRequest;
+import com.webobjects.appserver.NGResponse;
 
-public class MyDirectAction extends WODirectAction {
+public class MyDirectAction extends NGDirectAction {
 
-	public MyDirectAction( WORequest request ) {
+	public MyDirectAction( NGRequest request ) {
 		super( request );
 	}
 
 	@Override
-	public WOActionResults defaultAction() {
-		WOResponse r = new WOResponse();
+	public NGActionResults defaultAction() {
+		NGResponse r = new NGResponse();
 		r.setContent( "What an awesome application" );
 		return r;
 	}
 
-	public WOActionResults testingAction() {
-		WOResponse r = new WOResponse();
+	public NGActionResults testingAction() {
+		NGResponse r = new NGResponse();
 		r.setContent( "This is another direct action" );
 		return r;
 	}

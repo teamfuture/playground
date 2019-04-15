@@ -1,6 +1,6 @@
 package com.webobjects.appserver;
 
-public class WOResponse extends WOMessage implements WOActionResults {
+public class NGResponse extends NGMessage implements NGActionResults {
 
 	private int _status = 200;
 
@@ -12,7 +12,7 @@ public class WOResponse extends WOMessage implements WOActionResults {
 		_status = value;
 	}
 
-	public WOResponse generateResponse() {
+	public NGResponse generateResponse() {
 		return this;
 	}
 }

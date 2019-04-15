@@ -7,31 +7,31 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import temp.adaptor.WOExperimentalAdaptor;
+import temp.adaptor.NGExperimentalAdaptor;
 
-public class WOApplication {
+public class NGApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger( WOApplication.class );
+	private static final Logger logger = LoggerFactory.getLogger( NGApplication.class );
 
 	/**
 	 * Each running application has a singleton instance of WOApplication.
 	 */
-	private static WOApplication _application;
+	private static NGApplication _application;
 
 	/**
 	 * A map, mapping request handler keys to instances of "request handlers" (@see WORequestHandler).
 	 */
-	private Map<String, WORequestHandler> _requestHandlers = new HashMap<>();
+	private Map<String, NGRequestHandler> _requestHandlers = new HashMap<>();
 
 	public static void main( String[] args ) {
-		main( args, WOApplication.class );
+		main( args, NGApplication.class );
 	}
 
 	/**
 	 * This method should be invoked by subclasses
 	 */
-	public static void main( String[] args, Class<? extends WOApplication> applicationClass ) {
-		WOExperimentalAdaptor.listen();
+	public static void main( String[] args, Class<? extends NGApplication> applicationClass ) {
+		NGExperimentalAdaptor.listen();
 
 		try {
 			_application = applicationClass.newInstance();
@@ -40,20 +40,20 @@ public class WOApplication {
 			e.printStackTrace();
 		}
 
-		application().registerRequestHandler( new WODirectActionRequestHandler(), "wa" ); // FIXME: Consider location of initialization
+		application().registerRequestHandler( new NGDirectActionRequestHandler(), "wa" ); // FIXME: Consider location of initialization
 	}
 
 	/**
 	 * @return The instance of the running application.
 	 */
-	public static WOApplication application() {
+	public static NGApplication application() {
 		return _application;
 	}
 
 	/**
 	 * Registers a new request handler that will respond to requests under the given key. @see WORequestHandler
 	 */
-	public void registerRequestHandler( WORequestHandler requestHandler, String requestHandlerKey ) {
+	public void registerRequestHandler( NGRequestHandler requestHandler, String requestHandlerKey ) {
 		Objects.requireNonNull( requestHandler );
 		Objects.requireNonNull( requestHandlerKey );
 
@@ -72,12 +72,12 @@ public class WOApplication {
 	/**
 	 * Primary entry point of requests into the server stack (above WOAdaptor)
 	 */
-	public WOResponse dispatchRequest( WORequest request ) {
+	public NGResponse dispatchRequest( NGRequest request ) {
 		Objects.requireNonNull( request );
 		logger.debug( "Dispatching request {}", request );
 
 		final String requestHandlerKey = directActionRequestHandlerKey(); // FIXME: Implement request handler key lookup from URL // Hugi 2019-04-15
-		final WORequestHandler requestHandler = requestHandlerForKey( requestHandlerKey );
+		final NGRequestHandler requestHandler = requestHandlerForKey( requestHandlerKey );
 
 		if( requestHandler == null ) {
 			throw new IllegalArgumentException( "No request handler found for key: " + requestHandlerKey );
@@ -86,7 +86,7 @@ public class WOApplication {
 		return requestHandler.handleRequest( request );
 	}
 
-	private WORequestHandler requestHandlerForKey( String key ) {
+	private NGRequestHandler requestHandlerForKey( String key ) {
 		Objects.requireNonNull( key );
 
 		return _requestHandlers.get( key );

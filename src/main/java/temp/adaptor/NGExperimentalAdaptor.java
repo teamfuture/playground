@@ -41,9 +41,9 @@ import org.apache.http.protocol.ResponseServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.appserver.WOApplication;
-import com.webobjects.appserver.WORequest;
-import com.webobjects.appserver.WOResponse;
+import com.webobjects.appserver.NGApplication;
+import com.webobjects.appserver.NGRequest;
+import com.webobjects.appserver.NGResponse;
 
 /**
  * An experimental adaptor to pass experimental requests into the experimental stack. It's experimental 's what I'm saying.
@@ -51,11 +51,11 @@ import com.webobjects.appserver.WOResponse;
  * FIXME: This is put here purely as a placeholder for an *actual* adaptor, to be implemented at a later time.
  */
 
-public class WOExperimentalAdaptor {
+public class NGExperimentalAdaptor {
 
 	private static final int DEFAULT_HTTP_PORT = 1200;
 
-	private static final Logger logger = LoggerFactory.getLogger( WOExperimentalAdaptor.class );
+	private static final Logger logger = LoggerFactory.getLogger( NGExperimentalAdaptor.class );
 
 	public static void listen() {
 		try {
@@ -72,18 +72,18 @@ public class WOExperimentalAdaptor {
 
 		@Override
 		public void handle( HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext ) throws HttpException, IOException {
-			WOResponse woresponse = WOApplication.application().dispatchRequest( httpRequestToWORequest( httpRequest ) );
+			NGResponse woresponse = NGApplication.application().dispatchRequest( httpRequestToWORequest( httpRequest ) );
 			assignWOResponseToHttpResponse( woresponse, httpResponse );
 		}
 
-		private static WORequest httpRequestToWORequest( HttpRequest httpRequest ) {
+		private static NGRequest httpRequestToWORequest( HttpRequest httpRequest ) {
 			String method = httpRequest.getRequestLine().getMethod().toUpperCase( Locale.ENGLISH );
 			String uri = httpRequest.getRequestLine().getUri();
 			String httpVersion = httpRequest.getProtocolVersion().toString();
 			Map<String, List<String>> headers = headers( httpRequest );
 			byte[] content = null;
 			Map userInfo = null;
-			WORequest woRequest = new WORequest( method, uri, httpVersion, headers, content, userInfo );
+			NGRequest woRequest = new NGRequest( method, uri, httpVersion, headers, content, userInfo );
 			return woRequest;
 		}
 
@@ -103,9 +103,9 @@ public class WOExperimentalAdaptor {
 			return headers;
 		}
 
-		private static void assignWOResponseToHttpResponse( WOResponse woResponse, HttpResponse httpResponse ) {
+		private static void assignWOResponseToHttpResponse( NGResponse woResponse, HttpResponse httpResponse ) {
 			// FIXME: Determine the actual content type // Hugi 2019-04-15
-			StringEntity entity = new StringEntity( woResponse.contentString(), ContentType.create( "text/html", WOApplication.application().defaultEncoding() ) );
+			StringEntity entity = new StringEntity( woResponse.contentString(), ContentType.create( "text/html", NGApplication.application().defaultEncoding() ) );
 			httpResponse.setEntity( entity );
 			httpResponse.setStatusCode( woResponse.status() );
 		}

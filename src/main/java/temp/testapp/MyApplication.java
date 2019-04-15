@@ -1,10 +1,10 @@
 package temp.testapp;
 
-import com.webobjects.appserver.WOApplication;
+import com.webobjects.appserver.NGApplication;
 
-public class MyApplication extends WOApplication {
+public class MyApplication extends NGApplication {
 
 	public static void main( String[] args ) {
-		WOApplication.main( args, MyApplication.class );
+		NGApplication.main( args, MyApplication.class );
 	}
 }

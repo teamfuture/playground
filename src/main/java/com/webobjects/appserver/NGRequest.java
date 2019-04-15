@@ -2,17 +2,17 @@ package com.webobjects.appserver;
 
 import java.util.Map;
 
-public class WORequest extends WOMessage {
+public class NGRequest extends NGMessage {
 
 	private String _method;
 	private String _uri;
 
-	protected WORequest() {}
+	protected NGRequest() {}
 
 	/**
 	 * Check out NSData
 	 */
-	public WORequest( String method, String url, String httpVersion, Map headers, byte[] content, Map userInfo ) {
+	public NGRequest( String method, String url, String httpVersion, Map headers, byte[] content, Map userInfo ) {
 		setMethod( method );
 		_uri = url;
 		setHTTPVersion( httpVersion );

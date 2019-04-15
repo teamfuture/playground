@@ -11,9 +11,9 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WOMessage {
+public class NGMessage {
 
-	private static final Logger logger = LoggerFactory.getLogger( WOMessage.class );
+	private static final Logger logger = LoggerFactory.getLogger( NGMessage.class );
 
 	private Map<String, List<String>> _headers = new HashMap<String, List<String>>();
 	private String _httpVersion;

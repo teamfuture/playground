@@ -12,14 +12,14 @@ import org.slf4j.LoggerFactory;
  * Handles direct action requests
  */
 
-public class WODirectActionRequestHandler extends WORequestHandler {
+public class NGDirectActionRequestHandler extends NGRequestHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger( WODirectActionRequestHandler.class );
+	private static final Logger logger = LoggerFactory.getLogger( NGDirectActionRequestHandler.class );
 
 	/**
 	 * Name of the default direct action class.
 	 */
-	private static final String DEFAULT_DIRECT_ACTION_CLASS_NAME = WODirectAction.class.getName();
+	private static final String DEFAULT_DIRECT_ACTION_CLASS_NAME = NGDirectAction.class.getName();
 
 	/**
 	 * Name of the default direct action method.
@@ -27,7 +27,7 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 	private static final String DEFAULT_DIRECT_ACTION_NAME = "default";
 
 	@Override
-	public WOResponse handleRequest( WORequest request ) {
+	public NGResponse handleRequest( NGRequest request ) {
 		Objects.requireNonNull( request );
 
 		logger.debug( "Handling direct action request {}", request );
@@ -46,29 +46,29 @@ public class WODirectActionRequestHandler extends WORequestHandler {
 			directActionMethodName = DEFAULT_DIRECT_ACTION_NAME;
 		}
 
-		WOActionResults results = invokeDirectAction( directActionClassName, directActionMethodName, request );
+		NGActionResults results = invokeDirectAction( directActionClassName, directActionMethodName, request );
 		return results.generateResponse();
 	}
 
 	/**
 	 * @return a class corresponding to the class identifier in the URL. Can be a simple classname or fully qualified.
 	 */
-	private Class<? extends WODirectAction> directActionClassFromName( String directActionClassName ) {
+	private Class<? extends NGDirectAction> directActionClassFromName( String directActionClassName ) {
 		try {
-			return (Class<? extends WODirectAction>)Class.forName( directActionClassName );
+			return (Class<? extends NGDirectAction>)Class.forName( directActionClassName );
 		}
 		catch( ClassNotFoundException e ) {
 			throw new RuntimeException( e ); // FIXME: Can't just keep rethrowing
 		}
 	}
 
-	private WOActionResults invokeDirectAction( String directActionClassName, String directActionName, WORequest request ) {
+	private NGActionResults invokeDirectAction( String directActionClassName, String directActionName, NGRequest request ) {
 
 		try {
 			// FIXME: That class declaration needs to have a more efficient way of being (a) discovered and (b) cached
-			Class<? extends WODirectAction> directActionClass = directActionClassFromName( directActionClassName );
-			Constructor<? extends WODirectAction> constructor = directActionClass.getConstructor( WORequest.class );
-			WODirectAction newInstance = constructor.newInstance( request );
+			Class<? extends NGDirectAction> directActionClass = directActionClassFromName( directActionClassName );
+			Constructor<? extends NGDirectAction> constructor = directActionClass.getConstructor( NGRequest.class );
+			NGDirectAction newInstance = constructor.newInstance( request );
 			return newInstance.performActionNamed( directActionName );
 		}
 		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
