@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import temp.adaptor.WOExperimentalAdaptor;
 
 public class WOApplication {
+
+	private static final Logger logger = LoggerFactory.getLogger( WOApplication.class );
 
 	/**
 	 * Each running application has a singleton instance of WOApplication.
@@ -22,6 +27,9 @@ public class WOApplication {
 		main( args, WOApplication.class );
 	}
 
+	/**
+	 * This method should be invoked by subclasses
+	 */
 	public static void main( String[] args, Class<? extends WOApplication> applicationClass ) {
 		WOExperimentalAdaptor.listen();
 
@@ -35,7 +43,12 @@ public class WOApplication {
 		application().registerRequestHandler( new WODirectActionRequestHandler(), "wa" ); // FIXME: Consider location of initialization
 	}
 
-	public WOApplication() {}
+	/**
+	 * @return The instance of the running application.
+	 */
+	public static WOApplication application() {
+		return _application;
+	}
 
 	/**
 	 * Registers a new request handler that will respond to requests under the given key. @see WORequestHandler
@@ -48,17 +61,12 @@ public class WOApplication {
 	}
 
 	/**
-	 * @return The default encoding of the application.
+	 * @return The default text encoding of the application.
+	 *
+	 *         FIXME: This should be settable.
 	 */
 	public String defaultEncoding() {
 		return "utf-8";
-	}
-
-	/**
-	 * @return The instance of the running application.
-	 */
-	public static WOApplication application() {
-		return _application;
 	}
 
 	/**
@@ -66,6 +74,7 @@ public class WOApplication {
 	 */
 	public WOResponse dispatchRequest( WORequest request ) {
 		Objects.requireNonNull( request );
+		logger.debug( "Dispatching request {}", request );
 
 		final String requestHandlerKey = directActionRequestHandlerKey(); // FIXME: Implement request handler key lookup from URL // Hugi 2019-04-15
 		final WORequestHandler requestHandler = requestHandlerForKey( requestHandlerKey );
