@@ -68,6 +68,7 @@ public class WOExperimentalAdaptor {
 
 	static class Handler implements HttpRequestHandler {
 
+		@Override
 		public void handle( HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext ) throws HttpException, IOException {
 			WOResponse woresponse = WOApplication.application().dispatchRequest( httpRequestToWORequest( httpRequest ) );
 			assignWOResponseToHttpResponse( woresponse, httpResponse );
@@ -175,7 +176,6 @@ public class WOExperimentalAdaptor {
 
 		@Override
 		public void run() {
-			System.out.println( "New connection thread" );
 			HttpContext context = new BasicHttpContext( null );
 			try {
 				while( !Thread.interrupted() && this.conn.isOpen() ) {
