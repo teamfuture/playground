@@ -51,9 +51,9 @@ import com.webobjects.appserver.NGResponse;
  * FIXME: This is put here purely as a placeholder for an *actual* adaptor, to be implemented at a later time.
  */
 
-public class NGExperimentalAdaptor {
+public class NBHttpComponentsAdaptor {
 
-	private static final Logger logger = LoggerFactory.getLogger( NGExperimentalAdaptor.class );
+	private static final Logger logger = LoggerFactory.getLogger( NBHttpComponentsAdaptor.class );
 
 	// FIXME: Make the port settable via properties
 	private static final int DEFAULT_HTTP_PORT = 1200;
