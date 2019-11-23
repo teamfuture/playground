@@ -51,7 +51,7 @@ import com.webobjects.appserver.NGResponse;
  * FIXME: This is put here purely as a placeholder for an *actual* adaptor, to be implemented at a later time.
  */
 
-public class NGHttpComponentsAdaptor {
+public class NGHttpComponentsAdaptor extends NGAdaptor  {
 
 	private static final Logger logger = LoggerFactory.getLogger( NGHttpComponentsAdaptor.class );
 
