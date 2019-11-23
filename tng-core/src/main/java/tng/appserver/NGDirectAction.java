@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tng.adaptor.NGNotImplementedException;
+import tng.util.NGNotImplementedException;
 
 public class NGDirectAction extends NGAction {
 

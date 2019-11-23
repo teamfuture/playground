@@ -1,6 +1,6 @@
 package tng.kvc;
 
-import tng.adaptor.NGNotImplementedException;
+import tng.util.NGNotImplementedException;
 
 public interface NGKeyValueCoding {
 

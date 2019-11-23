@@ -1,4 +1,4 @@
-package tng.adaptor;
+package tng.util;
 
 /**
  * For helping to mark locations where stuff has not yet been implemented
