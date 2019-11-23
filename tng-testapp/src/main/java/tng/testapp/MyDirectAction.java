@@ -1,4 +1,4 @@
-package temp.testapp;
+package tng.testapp;
 
 import com.webobjects.appserver.NGActionResults;
 import com.webobjects.appserver.NGDirectAction;

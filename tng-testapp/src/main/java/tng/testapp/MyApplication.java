@@ -1,4 +1,4 @@
-package temp.testapp;
+package tng.testapp;
 
 import com.webobjects.appserver.NGApplication;
 import com.webobjects.appserver.NGBundle;
