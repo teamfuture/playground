@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import temp.adaptor.NBHttpComponentsAdaptor;
+import temp.adaptor.NGHttpComponentsAdaptor;
 
 public class NGApplication {
 
@@ -33,7 +33,7 @@ public class NGApplication {
 	public static void main( String[] args, Class<? extends NGApplication> applicationClass ) {
 		Objects.requireNonNull( applicationClass );
 
-		NBHttpComponentsAdaptor.listen();
+		NGHttpComponentsAdaptor.listen();
 
 		try {
 			_application = applicationClass.newInstance();
