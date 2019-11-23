@@ -1,9 +1,9 @@
 package tng.testapp;
 
-import com.webobjects.appserver.NGActionResults;
-import com.webobjects.appserver.NGDirectAction;
-import com.webobjects.appserver.NGRequest;
-import com.webobjects.appserver.NGResponse;
+import tng.appserver.NGActionResults;
+import tng.appserver.NGDirectAction;
+import tng.appserver.NGRequest;
+import tng.appserver.NGResponse;
 
 public class MyDirectAction extends NGDirectAction {
 

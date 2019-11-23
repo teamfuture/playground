@@ -1,3 +1,3 @@
-package temp.adaptor;
+package tng.adaptor;
 
 public class NBNettyAdaptor extends NGAdaptor {}

@@ -1,4 +1,4 @@
-package temp.adaptor;
+package tng.adaptor;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -41,9 +41,9 @@ import org.apache.http.protocol.ResponseServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.appserver.NGApplication;
-import com.webobjects.appserver.NGRequest;
-import com.webobjects.appserver.NGResponse;
+import tng.appserver.NGApplication;
+import tng.appserver.NGRequest;
+import tng.appserver.NGResponse;
 
 /**
  * An experimental adaptor to pass experimental requests into the experimental stack. It's experimental 's what I'm saying.

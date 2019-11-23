@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 public class NGResponse extends NGMessage implements NGActionResults {
 

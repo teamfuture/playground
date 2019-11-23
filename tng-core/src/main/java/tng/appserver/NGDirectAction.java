@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import temp.adaptor.NGNotImplementedException;
+import tng.adaptor.NGNotImplementedException;
 
 public class NGDirectAction extends NGAction {
 

@@ -1,7 +1,7 @@
 package tng.testapp;
 
-import com.webobjects.appserver.NGApplication;
-import com.webobjects.appserver.NGBundle;
+import tng.appserver.NGApplication;
+import tng.appserver.NGBundle;
 
 public class MyApplication extends NGApplication {
 

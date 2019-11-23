@@ -1,4 +1,4 @@
-package temp.adaptor;
+package tng.adaptor;
 
 /**
  * For helping to mark locations where stuff has not yet been implemented

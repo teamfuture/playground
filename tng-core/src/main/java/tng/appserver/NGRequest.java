@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 import java.util.List;
 import java.util.Map;

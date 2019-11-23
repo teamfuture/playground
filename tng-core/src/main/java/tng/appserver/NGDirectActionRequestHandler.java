@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

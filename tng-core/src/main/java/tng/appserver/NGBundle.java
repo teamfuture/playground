@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 import java.util.HashMap;
 import java.util.Map;

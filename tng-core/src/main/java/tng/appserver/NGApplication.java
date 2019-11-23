@@ -1,4 +1,4 @@
-package com.webobjects.appserver;
+package tng.appserver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import temp.adaptor.NGHttpComponentsAdaptor;
+import tng.adaptor.NGHttpComponentsAdaptor;
 
 public class NGApplication {
 
