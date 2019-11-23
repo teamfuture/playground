@@ -1,5 +1,7 @@
 package tng.kvc;
 
+import temp.adaptor.NGNotImplementedException;
+
 public interface NGKeyValueCoding {
 
 	public Object valueForKey( String key );
@@ -14,7 +16,7 @@ public interface NGKeyValueCoding {
 				return ((NGKeyValueCoding)object).valueForKey( key );
 			}
 
-			throw new IllegalStateException( "This should be implemented already" );
+			throw new NGNotImplementedException();
 
 			// method()
 			// _method()
